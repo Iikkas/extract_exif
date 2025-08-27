@@ -8,7 +8,7 @@ Features:
 ## Setup Guide
 
 ### 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/extract_exif.git
+git clone https://github.com/iikkas/extract_exif
 cd extract_exif
 
 ### 2. Install dependencies
