@@ -21,9 +21,11 @@ python extract_exif.py "C:\path\to\images"
 
 ### 4. Optional: Add to PATH
 If you want to run `extract_exif` from anywhere:
-1. Copy `extract_exif.py` into your Python `Scripts` folder  
+1. Copy `extract_exif.py` and  `extract_exif.bat` into your Python `Scripts` folder  
    (e.g. `C:\Users\YOURNAME\AppData\Local\Programs\Python\Python311\Scripts`)  
-2. Make sure this folder is in your system PATH  
-3. Now you can run:
+2. Make sure this folder is in your system PATH by running
+setx PATH "$env:PATH;C:\Users\<YOURNAME>\AppData\Local\Programs\Python\Python<YOURVERSION>\Scripts
+
+4. Now you can run:
 
 extract_exif "C:\path\to\images"
