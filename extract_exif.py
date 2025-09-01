@@ -33,13 +33,23 @@ def main():
         print(f"{folder} is not a valid directory.")
         sys.exit(1)
 
-    # Ask width filter
+    # Ask min width
     apply_width_filter = input("Do you want to filter images by minimum width? (y/n): ").strip().lower()
     min_width = None
     if apply_width_filter == "y":
         try:
             min_width = int(input("Enter minimum width in pixels: ").strip())
-            print(f"Filtering: only images with width >= {min_width}px will be included.\n")
+            print(f"Only images with width >= {min_width}px will be included.\n")
+        except ValueError:
+            print("Invalid input. No width filter applied.\n")
+
+    # Ask max width
+    apply_width_filter = input("Do you want to filter images by maximum width? (y/n): ").strip().lower()
+    max_width = None
+    if apply_width_filter == "y":
+        try:
+            max_width = int(input("Enter maximum width in pixels: ").strip())
+            print(f"Only images with width <= {max_width}px will be included.\n")
         except ValueError:
             print("Invalid input. No width filter applied.\n")
 
@@ -55,19 +65,23 @@ def main():
             brands = None
             print("No valid brands entered. No brand filter applied.\n")
 
-    output_file = Path.cwd() / "exif_output.txt"
+    output_file = Path.cwd() / "output.txt"
 
     with open(output_file, "w", encoding="utf-8") as f:
         for file in folder.rglob("*"):
-            if file.suffix.lower() in [".jpg", ".jpeg", ".png", ".heic"]:
+            if file.suffix.lower() in [".jpg", ".jpeg", ".png", ".heic", ".raw"]:
                 exif_data = extract_exif(file)
                 if not exif_data:
                     continue  # skip images with no data at all
 
                 # Apply width filter
+                width = exif_data.get("ImageWidth", 0)
+                
                 if min_width is not None:
-                    width = exif_data.get("ImageWidth", 0)
                     if width < min_width:
+                        continue
+                if max_width is not None:
+                    if width > max_width:
                         continue
 
                 # Apply camera brand filter
